@@ -3,7 +3,7 @@
 # exit when any command fails
 set -e
 
-MANAGERS=(dnf apt port vcpkg brew)
+MANAGERS=(dnf apt port vcpkg brew pacman)
 MANAGER=""
 LIST=0
 VERBOSE=0
@@ -160,6 +160,10 @@ elif [[ "$MANAGER" == "vcpkg" ]]; then
     PKGS_REQUIRED+=(glew eigen3)
     PKGS_RECOMMENDED+=(libjpeg-turbo libpng openexr tiff ffmpeg lz4 zstd python3 Catch2)
     PKGS_ALL+=(openni2 realsense2)
+elif [[ "$MANAGER" == "pacman" ]]; then
+    PKGS_OPTIONS+=(-Syu)
+    PKGS_REQUIRED+=(cmake eigen glew ninja mesa)
+    PKGS_RECOMMENDED+=(libjpeg-turbo libpng openexr libtiff ffmpeg4.4 lz4 zstd catch2)
 else
     echo "Error: Don't know how to use \"$MANAGER\", please fix the script." >&2
     exit 1
